@@ -1,0 +1,13 @@
+{
+  "name": "Invoke AWS Lambda",
+  "summary": "Invokes one Lambda function and returns its payload, function error and log tail.",
+  "author": "hummerstudio",
+  "license": "MIT",
+  "tags": [
+    "official-port",
+    "aws",
+    "lambda",
+    "invoke"
+  ],
+  "homepage": "https://github.com/hummerstudio/jenkins-atom-aws-lambda-invoke"
+}

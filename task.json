@@ -1,0 +1,99 @@
+{
+  "atomCode": "aws-lambda-invoke",
+  "name": "Invoke AWS Lambda",
+  "version": "1.0.0",
+  "description": "Invokes one AWS Lambda function with a JSON payload, returns its payload, function error and log tail.",
+  "execution": {
+    "packagePath": "aws-lambda-invoke.jar",
+    "language": "java",
+    "target": "$atom_java_path -cp aws-lambda-invoke.jar com.jenkinschina.atom.sdk.AtomRunner"
+  },
+  "input": {
+    "function": {
+      "label": "函数名或 ARN",
+      "type": "vuex-input",
+      "default": ""
+    },
+    "payload": {
+      "label": "JSON 请求体（可空）",
+      "type": "textarea",
+      "default": ""
+    },
+    "returnValueAsString": {
+      "label": "返回文本而不是 JSON",
+      "type": "checkbox",
+      "default": "false"
+    },
+    "region": {
+      "label": "区域（空则读 AWS_REGION）",
+      "type": "vuex-input",
+      "default": ""
+    },
+    "endpoint": {
+      "label": "自定义 endpoint（测试 / PrivateLink）",
+      "type": "vuex-input",
+      "default": ""
+    },
+    "timeoutSeconds": {
+      "label": "超时（秒）",
+      "type": "vuex-input",
+      "default": "120"
+    },
+    "accessKey": {
+      "label": "AWS_ACCESS_KEY_ID",
+      "type": "vuex-input",
+      "default": "",
+      "isSensitive": true
+    },
+    "secretKey": {
+      "label": "AWS_SECRET_ACCESS_KEY",
+      "type": "vuex-input",
+      "default": "",
+      "isSensitive": true
+    },
+    "sessionToken": {
+      "label": "AWS_SESSION_TOKEN（可选）",
+      "type": "vuex-input",
+      "default": "",
+      "isSensitive": true
+    }
+  },
+  "output": {
+    "payload": {
+      "type": "string",
+      "description": "函数返回的原始响应体"
+    },
+    "payloadType": {
+      "type": "string",
+      "description": "json 或 text"
+    },
+    "payloadBytes": {
+      "type": "string",
+      "description": "响应体字节数（按 Content-Length 回读核对）"
+    },
+    "functionError": {
+      "type": "string",
+      "description": "X-Amz-Function-Error（成功时为空）"
+    },
+    "statusCode": {
+      "type": "string",
+      "description": "HTTP 状态码"
+    },
+    "executedVersion": {
+      "type": "string",
+      "description": "X-Amz-Executed-Version"
+    },
+    "requestId": {
+      "type": "string",
+      "description": "x-amzn-RequestId"
+    },
+    "logTail": {
+      "type": "string",
+      "description": "LogResult 解出的日志尾部"
+    },
+    "region": {
+      "type": "string",
+      "description": "实际签名用的区域"
+    }
+  }
+}
