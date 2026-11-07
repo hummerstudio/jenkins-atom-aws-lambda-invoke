@@ -57,23 +57,29 @@ def sdk_jar():
         candidates = sorted((root / "target").glob("jenkins-atom-sdk-*.jar"))
         if candidates:
             return str(candidates[-1])
-    raise SystemExit("build the SDK first: cd ../jenkins-atom-sdk && ./build.sh")
+    raise SystemExit("build the SDK first: cd ../jenkins-atom-sdk && mvn -DskipTests package")
+
+
+def mvn():
+    home = os.environ.get("MAVEN_HOME")
+    if home and os.path.exists(os.path.join(home, "bin", "mvn")):
+        return os.path.join(home, "bin", "mvn")
+    return shutil.which("mvn") or "mvn"
 
 
 def build(tree):
-    env = dict(os.environ)
-    env["SDK_JAR"] = sdk_jar()
-    proc = subprocess.run(["bash", "build.sh"], cwd=tree, env=env, capture_output=True, text=True)
+    """The atom builds with Maven now; `mvn package` writes target/dist/<code>/<code>.jar."""
+    proc = subprocess.run([mvn(), "-B", "-ntp", "-DskipTests", "package"], cwd=tree, capture_output=True, text=True)
     if proc.returncode != 0:
-        return None, proc.stderr[-1500:]
-    return tree / "dist" / CODE / (CODE + ".jar"), proc.stdout
+        return None, (proc.stderr or proc.stdout)[-1500:]
+    return tree / "target" / "dist" / CODE / (CODE + ".jar"), proc.stdout
 
 
 def main():
     failures = 0
     for index, (name, source_file, old, new, case) in enumerate(MUTATIONS, 1):
         tree = pathlib.Path(tempfile.mkdtemp(prefix="lambda-mut-")) / "atom"
-        shutil.copytree(HERE, tree, ignore=shutil.ignore_patterns("dist", ".git", "__pycache__"))
+        shutil.copytree(HERE, tree, ignore=shutil.ignore_patterns("dist", "target", ".git", "__pycache__"))
         source = tree / source_file.relative_to(HERE)
         text = source.read_text(encoding="utf-8")
         if old not in text:

@@ -80,7 +80,8 @@ non-JSON payload sent anyway, a function error counted as success, 404 reported 
 empty payload turned into `{}`, a trimmed payload, credentials not required, the region hardcoded, a non-200 treated as
 success, latin-1 decoding. All 25 have to be caught; a survivor is a hole in the suite.
 
-`./tools/smoke.sh` builds the atom and runs the checks, and it is what CI runs.
+`mvn verify` builds the atom and runs the checks (`src/test/java/atom/AwsLambdaInvokeIT.java`), and it is what CI
+runs. `tools/check.py` is the same matrix as a standalone script over `tools/fake_lambda.py`.
 
 ## Inputs / outputs
 

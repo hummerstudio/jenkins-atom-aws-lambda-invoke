@@ -21,7 +21,7 @@ import time
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.dirname(HERE)
-JAR = os.path.join(REPO, "dist", "aws-lambda-invoke", "aws-lambda-invoke.jar")
+JAR = os.path.join(REPO, "target", "dist", "aws-lambda-invoke", "aws-lambda-invoke.jar")
 JAVA = os.path.join(os.environ.get("JAVA_HOME", "/Users/tangming/tools/jdk-21.0.12.1+1/Contents/Home"),
                     "bin", "java")
 TASK = json.load(open(os.path.join(REPO, "task.json"), encoding="utf-8"))
@@ -437,7 +437,7 @@ def main():
         del args[index:index + 2]
     needle = args[0] if args else ""
     if not os.path.exists(JAR):
-        raise SystemExit("build the atom first: ./build.sh (%s is missing)" % JAR)
+        raise SystemExit("build the atom first: mvn -DskipTests package (%s is missing)" % JAR)
     server = start_server()
     passed = failed = 0
     try:
