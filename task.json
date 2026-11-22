@@ -1,7 +1,7 @@
 {
   "atomCode": "aws-lambda-invoke",
   "name": "Invoke AWS Lambda",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Invokes one AWS Lambda function with a JSON payload, returns its payload, function error and log tail.",
   "execution": {
     "packagePath": "aws-lambda-invoke.jar",
@@ -94,6 +94,11 @@
     "region": {
       "type": "string",
       "description": "实际签名用的区域"
+    }
+  },
+  "x-jenkins": {
+    "requires": {
+      "runner": ">=0.4.0"
     }
   }
 }
