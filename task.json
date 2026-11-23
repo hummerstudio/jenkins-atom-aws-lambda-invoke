@@ -99,6 +99,7 @@
   "x-jenkins": {
     "requires": {
       "runner": ">=0.4.0"
-    }
+    },
+    "category": "deploy"
   }
 }
